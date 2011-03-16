@@ -87,21 +87,15 @@ module Item_Factory
 
     return Normal.new(item)
   end
-
-  def Item_Factory.can_create? item_name
-    return true
-  end
 end
 
 def update_quality(items)
   include Item_Factory
   items.each do |item|
 
-    if Item_Factory.can_create? item.name 
-      i = Item_Factory.create(item)
-      item.quality = i.get_quality
-      item.sell_in = i.get_sell_in
-    end
+    i = Item_Factory.create(item)
+    item.quality = i.get_quality
+    item.sell_in = i.get_sell_in
   end
 end
 
