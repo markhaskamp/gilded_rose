@@ -1,5 +1,42 @@
+
+class Aged_Brie
+  def initialize item
+    @my_item = item
+  end
+
+  def get_quality
+    @my_item.quality += 2 if @my_item.sell_in <= 0
+    @my_item.quality += 1 if @my_item.sell_in > 0
+    @my_item.quality = 50 if @my_item.quality > 50
+
+    return @my_item.quality
+  end
+
+  def get_sell_in
+    @my_item.sell_in -= 1
+  end
+end
+
+module Item_Factory
+  def Item_Factory.create item
+    return Aged_Brie.new(item) if item.name == 'Aged Brie'
+  end
+
+  def Item_Factory.can_create? item_name
+    item_name == 'Aged Brie'
+  end
+end
+
 def update_quality(items)
+  include Item_Factory
   items.each do |item|
+
+    if Item_Factory.can_create? item.name 
+      i = Item_Factory.create(item)
+      item.quality = i.get_quality
+      item.sell_in = i.get_sell_in
+    else
+
     if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
       if item.quality > 0
         if item.name != 'Sulfuras, Hand of Ragnaros'
@@ -23,9 +60,11 @@ def update_quality(items)
         end
       end
     end
+
     if item.name != 'Sulfuras, Hand of Ragnaros'
       item.sell_in -= 1
     end
+
     if item.sell_in < 0
       if item.name != "Aged Brie"
         if item.name != 'Backstage passes to a TAFKAL80ETC concert'
@@ -42,6 +81,7 @@ def update_quality(items)
           item.quality += 1
         end
       end
+    end
     end
   end
 end
