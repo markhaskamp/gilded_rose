@@ -31,15 +31,43 @@ class Sulfuras
   end
 end
 
+class Backstage
+  def initialize item
+    @my_item = item
+  end
+
+  def get_quality
+    if @my_item.sell_in > 10
+      @my_item.quality += 1
+    elsif @my_item.sell_in > 5
+      @my_item.quality += 2
+    elsif @my_item.sell_in > 0
+      @my_item.quality += 3
+    else
+      @my_item.quality = 0
+    end
+
+    @my_item.quality = 50 if @my_item.quality > 50
+
+    @my_item.quality
+  end
+
+  def get_sell_in
+    @my_item.sell_in - 1
+  end
+end
+
 module Item_Factory
   def Item_Factory.create item
     return Aged_Brie.new(item) if item.name == 'Aged Brie'
     return Sulfuras.new(item) if item.name == 'Sulfuras, Hand of Ragnaros'
+    return Backstage.new(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
   end
 
   def Item_Factory.can_create? item_name
     item_name == 'Aged Brie' ||
-    item_name == 'Sulfuras, Hand of Ragnaros'
+    item_name == 'Sulfuras, Hand of Ragnaros' ||
+    item_name == 'Backstage passes to a TAFKAL80ETC concert'
   end
 end
 
