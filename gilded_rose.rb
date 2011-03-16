@@ -17,13 +17,29 @@ class Aged_Brie
   end
 end
 
+class Sulfuras
+  def initialize item
+    @my_item = item
+  end
+
+  def get_quality
+    @my_item.quality
+  end
+
+  def get_sell_in
+    @my_item.sell_in
+  end
+end
+
 module Item_Factory
   def Item_Factory.create item
     return Aged_Brie.new(item) if item.name == 'Aged Brie'
+    return Sulfuras.new(item) if item.name == 'Sulfuras, Hand of Ragnaros'
   end
 
   def Item_Factory.can_create? item_name
-    item_name == 'Aged Brie'
+    item_name == 'Aged Brie' ||
+    item_name == 'Sulfuras, Hand of Ragnaros'
   end
 end
 
@@ -39,9 +55,7 @@ def update_quality(items)
 
     if item.name != 'Backstage passes to a TAFKAL80ETC concert'
       if item.quality > 0
-        if item.name != 'Sulfuras, Hand of Ragnaros'
-          item.quality -= 1
-        end
+        item.quality -= 1
       end
     else
       if item.quality < 50
@@ -61,16 +75,12 @@ def update_quality(items)
       end
     end
 
-    if item.name != 'Sulfuras, Hand of Ragnaros'
-      item.sell_in -= 1
-    end
+    item.sell_in -= 1
 
     if item.sell_in < 0
         if item.name != 'Backstage passes to a TAFKAL80ETC concert'
           if item.quality > 0
-            if item.name != 'Sulfuras, Hand of Ragnaros'
-              item.quality -= 1
-            end
+            item.quality -= 1
           end
         else
           item.quality = item.quality - item.quality
