@@ -57,17 +57,39 @@ class Backstage
   end
 end
 
+class Normal
+  def initialize item
+    @my_item = item
+  end
+
+  def get_quality
+    if @my_item.quality > 0
+      @my_item.quality -= 1
+
+      if @my_item.sell_in <= 0
+        @my_item.quality -= 1
+      end
+    end
+
+    return @my_item.quality
+  end
+
+  def get_sell_in
+    @my_item.sell_in - 1
+  end
+end
+
 module Item_Factory
   def Item_Factory.create item
     return Aged_Brie.new(item) if item.name == 'Aged Brie'
     return Sulfuras.new(item) if item.name == 'Sulfuras, Hand of Ragnaros'
     return Backstage.new(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+
+    return Normal.new(item)
   end
 
   def Item_Factory.can_create? item_name
-    item_name == 'Aged Brie' ||
-    item_name == 'Sulfuras, Hand of Ragnaros' ||
-    item_name == 'Backstage passes to a TAFKAL80ETC concert'
+    return true
   end
 end
 
