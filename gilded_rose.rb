@@ -1,5 +1,11 @@
 
-class Aged_Brie
+class Item_Parent
+  def get_sell_in
+    @my_item.sell_in -= 1
+  end
+end
+
+class Aged_Brie < Item_Parent
   def initialize item
     @my_item = item
   end
@@ -11,13 +17,9 @@ class Aged_Brie
 
     return @my_item.quality
   end
-
-  def get_sell_in
-    @my_item.sell_in -= 1
-  end
 end
 
-class Sulfuras
+class Sulfuras < Item_Parent
   def initialize item
     @my_item = item
   end
@@ -31,7 +33,8 @@ class Sulfuras
   end
 end
 
-class Backstage
+
+class Backstage < Item_Parent
   def initialize item
     @my_item = item
   end
@@ -51,14 +54,10 @@ class Backstage
 
     @my_item.quality
   end
-
-  def get_sell_in
-    @my_item.sell_in - 1
-  end
 end
 
 
-class Conjure
+class Conjure < Item_Parent
   def initialize item
     @my_item = item
   end
@@ -69,10 +68,6 @@ class Conjure
     @my_item.quality = 0 if @my_item.quality < 0
 
     return @my_item.quality
-  end
-
-  def get_sell_in
-    @my_item.sell_in - 1
   end
 end
 
