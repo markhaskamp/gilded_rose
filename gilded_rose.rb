@@ -57,6 +57,25 @@ class Backstage
   end
 end
 
+
+class Conjure
+  def initialize item
+    @my_item = item
+  end
+
+  def get_quality
+    @my_item.quality -= 2
+
+    @my_item.quality = 0 if @my_item.quality < 0
+
+    return @my_item.quality
+  end
+
+  def get_sell_in
+    @my_item.sell_in - 1
+  end
+end
+
 class Normal
   def initialize item
     @my_item = item
@@ -84,6 +103,7 @@ module Item_Factory
     return Aged_Brie.new(item) if item.name == 'Aged Brie'
     return Sulfuras.new(item) if item.name == 'Sulfuras, Hand of Ragnaros'
     return Backstage.new(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+    return Conjure.new(item) if item.name == 'Conjured Mana Cake'
 
     return Normal.new(item)
   end
